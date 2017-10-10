@@ -1,0 +1,50 @@
+.catalog:
+  name: "MongoDB Sharded"
+  version: "v1.0.0"
+  description: |
+    MongoDB Sharded Cluster
+  questions:
+    - variable: MONGODB_KEYFILE_SECRET
+      type: multiline
+      required: true
+      label: "MongoDB Keyfile"
+    - variable: MONGODB_PRIMARY_HOST_LABEL
+      type: string
+      required: true
+      default: "mongodb.replicaset.role=primary"
+    - variable: MONGODB_SECUNDARY_HOST_LABEL
+      type: string
+      required: true
+      default: "mongodb.replicaset.role=secundary"
+    - variable: MONGODB_ARBITER_HOST_LABEL
+      type: string
+      required: true
+      default: "mongodb.replicaset.role=arbiter"
+    - variable: MONGODB_ROUTER_HOST_LABEL
+      type: string
+      required: true
+      default: "mongodb.replicaset.role=router"
+
+version: '2'
+services:
+  primary:
+    scale: 1
+    start_on_create: true
+  secundary:
+    scale: 1
+    start_on_create: true
+  arbiter:
+    scale: 1
+    start_on_create: true
+  config-1:
+    scale: 1
+    start_on_create: true
+  config-2:
+    scale: 1
+    start_on_create: true
+  config-3:
+    scale: 1
+    start_on_create: true
+  router:
+    scale: 1
+    start_on_create: true

@@ -1,0 +1,194 @@
+version: '2'
+volumes:
+  mongodb-primary-data:
+    external: true
+    driver: rancher-ebs
+  mongodb-secundary-data:
+    external: true
+    driver: rancher-ebs
+  mongodb-arbiter-data:
+    external: true
+    driver: rancher-ebs
+  mongodb-config-1-data:
+    external: true
+    driver: rancher-ebs
+  mongodb-config-2-data:
+    external: true
+    driver: rancher-ebs
+  mongodb-config-3-data:
+    external: true
+    driver: rancher-ebs
+services:
+  keyfile:
+    image: gustavosbarreto/mender-secrets-provider
+    environment:
+      MONGODB_KEYFILE_SECRET: '${MONGODB_KEYFILE_SECRET}'
+    stdin_open: true
+    volumes:
+    - /run/secrets
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.start_once: 'true'
+  primary:
+    image: mongo:3.4.9
+    stdin_open: true
+    volumes_from:
+    - keyfile
+    volumes:
+    - mongodb-primary-data:/data/db
+    tty: true
+    links:
+    - arbiter:arbiter
+    - secundary:secundary
+    command:
+    - mongod
+    - --keyFile
+    - /run/secrets/MONGODB_KEYFILE
+    - --replSet
+    - rs1
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: ${MONGODB_PRIMARY_HOST_LABEL}
+      io.rancher.sidekicks: secundary,arbiter,keyfile
+  secundary:
+    image: mongo:3.4.9
+    stdin_open: true
+    volumes_from:
+    - keyfile
+    volumes:
+    - mongodb-secundary-data:/data/db
+    tty: true
+    links:
+    - primary:primary
+    - arbiter:arbiter
+    command:
+    - mongod
+    - --keyFile
+    - /run/secrets/MONGODB_KEYFILE
+    - --replSet
+    - rs1
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: ${MONGODB_SECUNDARY_HOST_LABEL}
+  arbiter:
+    image: mongo:3.4.9
+    stdin_open: true
+    volumes_from:
+    - keyfile
+    volumes:
+    - mongodb-arbiter-data:/data/db
+    tty: true
+    links:
+    - primary:primary
+    - secundary:secundary
+    command:
+    - mongod
+    - --keyFile
+    - /run/secrets/MONGODB_KEYFILE
+    - --replSet
+    - rs1
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: ${MONGODB_ARBITER_HOST_LABEL}
+  config-1:
+    image: mongo:3.4.9
+    stdin_open: true
+    volumes_from:
+    - keyfile
+    volumes:
+    - mongodb-config-1-data:/data/db
+    tty: true
+    links:
+    - primary:primary
+    - secundary:secundary
+    - arbiter:arbiter
+    - config-2:config-2
+    - config-3:config-3
+    command:
+    - mongod
+    - --keyFile
+    - /run/secrets/MONGODB_KEYFILE
+    - --configsvr
+    - --dbpath
+    - /data/db
+    - --port
+    - 27017
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: ${MONGODB_SECUNDARY_HOST_LABEL}
+  config-2:
+    image: mongo:3.4.9
+    stdin_open: true
+    volumes_from:
+    - keyfile
+    volumes:
+    - mongodb-config-2-data:/data/db
+    tty: true
+    links:
+    - primary:primary
+    - secundary:secundary
+    - arbiter:arbiter
+    - config-1:config-1
+    - config-3:config-3
+    command:
+    - mongod
+    - --keyFile
+    - /run/secrets/MONGODB_KEYFILE
+    - --configsvr
+    - --dbpath
+    - /data/db
+    - --port
+    - 27017
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: ${MONGODB_ARBITER_HOST_LABEL}
+  config-2:
+    image: mongo:3.4.9
+    stdin_open: true
+    volumes_from:
+    - keyfile
+    volumes:
+    - mongodb-config-3-data:/data/db
+    tty: true
+    links:
+    - primary:primary
+    - secundary:secundary
+    - arbiter:arbiter
+    - config-1:config-1
+    - config-2:config-2
+    command:
+    - mongod
+    - --keyFile
+    - /run/secrets/MONGODB_KEYFILE
+    - --configsvr
+    - --dbpath
+    - /data/db
+    - --port
+    - 27017
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: ${MONGODB_ROUTER_HOST_LABEL}
+  router:
+    image: mongo:3.4.9
+    stdin_open: true
+    volumes_from:
+    - keyfile
+    tty: true
+    links:
+    - primary:primary
+    - secundary:secundary
+    - arbiter:arbiter
+    - config-1:config-1
+    - config-2:config-2
+    - config-3:config-3
+    command:
+    - mongos
+    - --keyFile
+    - /run/secrets/MONGODB_KEYFILE
+    - --port
+    - 27017
+    - --configdb config-1:27017,config-2:27017,config-3:27017
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: ${MONGODB_ROUTER_HOST_LABEL}
