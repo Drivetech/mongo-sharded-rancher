@@ -113,7 +113,7 @@ services:
     - --dbpath
     - /data/db
     - --port
-    - 27017
+    - "27017"
     labels:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label: ${MONGODB_SECUNDARY_HOST_LABEL}
@@ -139,7 +139,7 @@ services:
     - --dbpath
     - /data/db
     - --port
-    - 27017
+    - "27017"
     labels:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label: ${MONGODB_ARBITER_HOST_LABEL}
@@ -165,7 +165,7 @@ services:
     - --dbpath
     - /data/db
     - --port
-    - 27017
+    - "27017"
     labels:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label: ${MONGODB_ROUTER_HOST_LABEL}
@@ -187,7 +187,7 @@ services:
     - --keyFile
     - /run/secrets/MONGODB_KEYFILE
     - --port
-    - 27017
+    - "27017"
     - --configdb config-1:27017,config-2:27017,config-3:27017
     labels:
       io.rancher.container.pull_image: always
