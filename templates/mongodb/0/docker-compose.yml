@@ -2,7 +2,7 @@ version: '2'
 
 services:
   config-primary:
-    image: lgatica/mongodb-sharded-config:latest
+    image: lgatica/mongodb-sharded-config:latest@sha256:b30a7c8493670b06bf91f664de5955803de9d98f054eeb809260579fbb6558cc
     stdin_open: true
     tty: true
     volumes:
@@ -15,7 +15,7 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.container.start_once: 'true'
   config-secundary:
-    image: lgatica/mongodb-sharded-config:latest
+    image: lgatica/mongodb-sharded-config:latest@sha256:b30a7c8493670b06bf91f664de5955803de9d98f054eeb809260579fbb6558cc
     stdin_open: true
     tty: true
     volumes:
@@ -28,7 +28,7 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.container.start_once: 'true'
   config-arbiter:
-    image: lgatica/mongodb-sharded-config:latest
+    image: lgatica/mongodb-sharded-config:latest@sha256:b30a7c8493670b06bf91f664de5955803de9d98f054eeb809260579fbb6558cc
     stdin_open: true
     tty: true
     volumes:
@@ -41,7 +41,7 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.container.start_once: 'true'
   config-configsvr-1:
-    image: lgatica/mongodb-sharded-config:latest
+    image: lgatica/mongodb-sharded-config:latest@sha256:b30a7c8493670b06bf91f664de5955803de9d98f054eeb809260579fbb6558cc
     stdin_open: true
     tty: true
     volumes:
@@ -54,7 +54,7 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.container.start_once: 'true'
   config-configsvr-2:
-    image: lgatica/mongodb-sharded-config:latest
+    image: lgatica/mongodb-sharded-config:latest@sha256:b30a7c8493670b06bf91f664de5955803de9d98f054eeb809260579fbb6558cc
     stdin_open: true
     tty: true
     volumes:
@@ -67,7 +67,7 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.container.start_once: 'true'
   config-configsvr-3:
-    image: lgatica/mongodb-sharded-config:latest
+    image: lgatica/mongodb-sharded-config:latest@sha256:b30a7c8493670b06bf91f664de5955803de9d98f054eeb809260579fbb6558cc
     stdin_open: true
     tty: true
     volumes:
@@ -80,7 +80,7 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.container.start_once: 'true'
   config-router:
-    image: lgatica/mongodb-sharded-config:latest
+    image: lgatica/mongodb-sharded-config:latest@sha256:b30a7c8493670b06bf91f664de5955803de9d98f054eeb809260579fbb6558cc
     stdin_open: true
     tty: true
     volumes:
@@ -93,7 +93,7 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.container.start_once: 'true'
   primary:
-    image: mongo:3.4.9
+    image: mongo:3.4.9@sha256:97c51a36d08871557c02e64d20a9a6b645b16ce387b39ae4414609c39dfc439c
     stdin_open: true
     volumes_from:
     - config-primary
@@ -115,7 +115,7 @@ services:
       io.rancher.scheduler.affinity:host_label: '${MONGODB_PRIMARY_HOST_LABEL}'
       io.rancher.sidekicks: config-primary
   secundary:
-    image: mongo:3.4.9
+    image: mongo:3.4.9@sha256:97c51a36d08871557c02e64d20a9a6b645b16ce387b39ae4414609c39dfc439c
     stdin_open: true
     volumes_from:
     - config-secundary
@@ -143,7 +143,7 @@ services:
       io.rancher.scheduler.affinity:host_label: '${MONGODB_SECUNDARY_HOST_LABEL}'
       io.rancher.sidekicks: config-secundary
   arbiter:
-    image: mongo:3.4.9
+    image: mongo:3.4.9@sha256:97c51a36d08871557c02e64d20a9a6b645b16ce387b39ae4414609c39dfc439c
     stdin_open: true
     volumes_from:
     - config-arbiter
@@ -171,7 +171,7 @@ services:
       io.rancher.scheduler.affinity:host_label: '${MONGODB_ARBITER_HOST_LABEL}'
       io.rancher.sidekicks: config-arbiter
   configsvr-1:
-    image: mongo:3.4.9
+    image: mongo:3.4.9@sha256:97c51a36d08871557c02e64d20a9a6b645b16ce387b39ae4414609c39dfc439c
     stdin_open: true
     volumes_from:
     - config-configsvr-1
@@ -192,7 +192,7 @@ services:
       io.rancher.scheduler.affinity:host_label: '${MONGODB_CONFIG1_HOST_LABEL}'
       io.rancher.sidekicks: config-configsvr-1
   configsvr-2:
-    image: mongo:3.4.9
+    image: mongo:3.4.9@sha256:97c51a36d08871557c02e64d20a9a6b645b16ce387b39ae4414609c39dfc439c
     stdin_open: true
     volumes_from:
     - config-configsvr-2
@@ -220,7 +220,7 @@ services:
       io.rancher.scheduler.affinity:host_label: '${MONGODB_CONFIG2_HOST_LABEL}'
       io.rancher.sidekicks: config-configsvr-2
   configsvr-3:
-    image: mongo:3.4.9
+    image: mongo:3.4.9@sha256:97c51a36d08871557c02e64d20a9a6b645b16ce387b39ae4414609c39dfc439c
     stdin_open: true
     volumes_from:
     - config-configsvr-3
@@ -248,7 +248,7 @@ services:
       io.rancher.scheduler.affinity:host_label: '${MONGODB_CONFIG3_HOST_LABEL}'
       io.rancher.sidekicks: config-configsvr-3
   router:
-    image: mongo:3.4.9
+    image: mongo:3.4.9@sha256:97c51a36d08871557c02e64d20a9a6b645b16ce387b39ae4414609c39dfc439c
     stdin_open: true
     volumes_from:
     - config-router
