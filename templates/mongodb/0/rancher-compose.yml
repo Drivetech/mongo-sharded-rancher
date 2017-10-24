@@ -60,24 +60,45 @@
 
 version: '2'
 services:
-  primary:
+  config-router:
     scale: 1
     start_on_create: true
   secundary:
     scale: 1
     start_on_create: true
+  config-configsvr-3:
+    scale: 1
+    start_on_create: true
   arbiter:
     scale: 1
     start_on_create: true
-  config-1:
-    scale: 1
-    start_on_create: true
-  config-2:
-    scale: 1
-    start_on_create: true
-  config-3:
-    scale: 1
-    start_on_create: true
   router:
+    scale: 1
+    start_on_create: true
+  configsvr-2:
+    scale: 1
+    start_on_create: true
+  config-primary:
+    scale: 1
+    start_on_create: true
+  configsvr-3:
+    scale: 1
+    start_on_create: true
+  configsvr-1:
+    scale: 1
+    start_on_create: true
+  config-secundary:
+    scale: 1
+    start_on_create: true
+  config-configsvr-1:
+    scale: 1
+    start_on_create: true
+  config-configsvr-2:
+    scale: 1
+    start_on_create: true
+  config-arbiter:
+    scale: 1
+    start_on_create: true
+  primary:
     scale: 1
     start_on_create: true
