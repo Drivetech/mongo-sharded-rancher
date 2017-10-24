@@ -8,22 +8,55 @@
       type: multiline
       required: true
       label: "MongoDB Keyfile"
+    - variable: MONGODB_PASSWORD_ADMIN_USER_SECRET
+      type: string
+      required: true
+      label: "Password for admin user"
+    - variable: MONGODB_ADMIN_USER
+      type: string
+      required: false
+      default: "admin"
+      label: "Username for admin user"
+    - variable: MONGODB_DBNAME
+      type: string
+      required: false
+      default: "mydb"
+      label: "Database name"
     - variable: MONGODB_PRIMARY_HOST_LABEL
       type: string
       required: true
       default: "mongodb.replicaset.role=primary"
+      label: "Host label for primary"
     - variable: MONGODB_SECUNDARY_HOST_LABEL
       type: string
       required: true
       default: "mongodb.replicaset.role=secundary"
+      label: "Host label for secundary"
     - variable: MONGODB_ARBITER_HOST_LABEL
       type: string
       required: true
       default: "mongodb.replicaset.role=arbiter"
+      label: "Host label for arbiter"
     - variable: MONGODB_ROUTER_HOST_LABEL
       type: string
       required: true
       default: "mongodb.replicaset.role=router"
+      label: "Host label for router"
+    - variable: MONGODB_CONFIG1_HOST_LABEL
+      type: string
+      required: true
+      default: "mongodb.replicaset.role=secundary"
+      label: "Host label for config server 1"
+    - variable: MONGODB_CONFIG2_HOST_LABEL
+      type: string
+      required: true
+      default: "mongodb.replicaset.role=arbiter"
+      label: "Host label for config server 2"
+    - variable: MONGODB_CONFIG3_HOST_LABEL
+      type: string
+      required: true
+      default: "mongodb.replicaset.role=router"
+      label: "Host label for config server 3"
 
 version: '2'
 services:

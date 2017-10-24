@@ -4,6 +4,6 @@ description: |
 version: v1.0.0
 category: Databases
 maintainer: Leonardo Gatica <lgatica@protonmail.com>
-projectURL: http://github.com/lgaticaq/rancher-mongo-sharded
+projectURL: http://github.com/lgaticaq/mongo-sharded-rancher
 labels:
   io.rancher.orchestration.supported: 'cattle,swarm'
