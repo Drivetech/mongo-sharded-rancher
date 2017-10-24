@@ -265,8 +265,8 @@ services:
     tty: true
     entrypoint: /opt/mongodb/scripts/mongodb-router.init.sh
     environment:
-      MONGODB_DBNAME: '$MONGODB_DBNAME'
-      MONGODB_ADMIN_USER: '$MONGODB_ADMIN_USER'
+      MONGODB_DBNAME: '${MONGODB_DBNAME}'
+      MONGODB_ADMIN_USER: '${MONGODB_ADMIN_USER}'
     labels:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label: '${MONGODB_ROUTER_HOST_LABEL}'
