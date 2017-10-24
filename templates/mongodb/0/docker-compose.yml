@@ -272,6 +272,8 @@ services:
     - configsvr-1
     - configsvr-2
     - configsvr-3
+    ports:
+    - '${MONGODB_PORT}:27017'
     tty: true
     entrypoint: /opt/mongodb/scripts/mongodb-router.init.sh
     environment:
