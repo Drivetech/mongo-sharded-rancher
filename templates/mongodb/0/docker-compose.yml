@@ -109,6 +109,8 @@ services:
     - secundary
     - arbiter
     - configsvr-1
+    - configsvr-2
+    - configsvr-3
     entrypoint: /opt/mongodb/scripts/mongodb-replicaset.init.sh
     labels:
       io.rancher.container.pull_image: always
@@ -127,6 +129,8 @@ services:
     - configsvr-1:configsvr-1
     - configsvr-2:configsvr-2
     - configsvr-3:configsvr-3
+    depends_on:
+    - arbiter
     command:
     - mongod
     - --keyFile
@@ -204,6 +208,8 @@ services:
     - configsvr-1:configsvr-1
     - primary:primary
     - configsvr-3:configsvr-3
+    depends_on:
+    - configsvr-3
     command:
     - mongod
     - --configsvr
@@ -261,7 +267,11 @@ services:
     - configsvr-3:configsvr-3
     depends_on:
     - primary
+    - secundary
+    - arbiter
     - configsvr-1
+    - configsvr-2
+    - configsvr-3
     tty: true
     entrypoint: /opt/mongodb/scripts/mongodb-router.init.sh
     environment:
