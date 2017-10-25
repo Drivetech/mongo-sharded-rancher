@@ -2,7 +2,7 @@ version: '2'
 
 services:
   config-primary:
-    image: lgatica/mongodb-sharded-config:latest@sha256:b30a7c8493670b06bf91f664de5955803de9d98f054eeb809260579fbb6558cc
+    image: lgatica/mongodb-sharded-config:latest@sha256:efe9415d04e6c70286cf78a7b0b429c867102f13d7af91afd85f22b43f3645c4
     stdin_open: true
     tty: true
     volumes:
@@ -15,7 +15,7 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.container.start_once: 'true'
   config-secundary:
-    image: lgatica/mongodb-sharded-config:latest@sha256:b30a7c8493670b06bf91f664de5955803de9d98f054eeb809260579fbb6558cc
+    image: lgatica/mongodb-sharded-config:latest@sha256:efe9415d04e6c70286cf78a7b0b429c867102f13d7af91afd85f22b43f3645c4
     stdin_open: true
     tty: true
     volumes:
@@ -28,7 +28,7 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.container.start_once: 'true'
   config-arbiter:
-    image: lgatica/mongodb-sharded-config:latest@sha256:b30a7c8493670b06bf91f664de5955803de9d98f054eeb809260579fbb6558cc
+    image: lgatica/mongodb-sharded-config:latest@sha256:efe9415d04e6c70286cf78a7b0b429c867102f13d7af91afd85f22b43f3645c4
     stdin_open: true
     tty: true
     volumes:
@@ -41,7 +41,7 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.container.start_once: 'true'
   config-configsvr-1:
-    image: lgatica/mongodb-sharded-config:latest@sha256:b30a7c8493670b06bf91f664de5955803de9d98f054eeb809260579fbb6558cc
+    image: lgatica/mongodb-sharded-config:latest@sha256:efe9415d04e6c70286cf78a7b0b429c867102f13d7af91afd85f22b43f3645c4
     stdin_open: true
     tty: true
     volumes:
@@ -54,7 +54,7 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.container.start_once: 'true'
   config-configsvr-2:
-    image: lgatica/mongodb-sharded-config:latest@sha256:b30a7c8493670b06bf91f664de5955803de9d98f054eeb809260579fbb6558cc
+    image: lgatica/mongodb-sharded-config:latest@sha256:efe9415d04e6c70286cf78a7b0b429c867102f13d7af91afd85f22b43f3645c4
     stdin_open: true
     tty: true
     volumes:
@@ -67,7 +67,7 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.container.start_once: 'true'
   config-configsvr-3:
-    image: lgatica/mongodb-sharded-config:latest@sha256:b30a7c8493670b06bf91f664de5955803de9d98f054eeb809260579fbb6558cc
+    image: lgatica/mongodb-sharded-config:latest@sha256:efe9415d04e6c70286cf78a7b0b429c867102f13d7af91afd85f22b43f3645c4
     stdin_open: true
     tty: true
     volumes:
@@ -80,7 +80,7 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.container.start_once: 'true'
   config-router:
-    image: lgatica/mongodb-sharded-config:latest@sha256:b30a7c8493670b06bf91f664de5955803de9d98f054eeb809260579fbb6558cc
+    image: lgatica/mongodb-sharded-config:latest@sha256:efe9415d04e6c70286cf78a7b0b429c867102f13d7af91afd85f22b43f3645c4
     stdin_open: true
     tty: true
     volumes:
