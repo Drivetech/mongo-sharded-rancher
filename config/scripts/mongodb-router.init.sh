@@ -4,22 +4,23 @@ set -m
 
 mongos --port 27017 --keyFile /run/secrets/MONGODB_KEYFILE --configdb mongodb-configserver/configsvr-1:27017,configsvr-2:27017,configsvr-3:27017 &
 
-RET=1
-while [[ RET -ne 0 ]]; do
-  echo "=> Waiting for confirmation of MongoDB service startup"
-  sleep 5
-  mongo admin --eval "help" >/dev/null 2>&1
-  RET=$?
-done
+if [ ! -f /data/db/.metadata/.router ]; then
+  RET=1
+  while [[ RET -ne 0 ]]; do
+    echo "=> Waiting for confirmation of MongoDB service startup"
+    sleep 5
+    mongo admin --eval "help" >/dev/null 2>&1
+    RET=$?
+  done
 
-# Apply sharding configuration
-mongo < /opt/mongodb/scripts/mongodb-sharding.init.js
+  # Apply sharding configuration
+  mongo < /opt/mongodb/scripts/mongodb-sharding.init.js
 
-# Enable admin account
-MONGODB_PASSWORD_ADMIN_USER=$(cat /run/secrets/MONGODB_PASSWORD_ADMIN_USER)
-MONGODB_ADMIN_USER=${MONGODB_ADMIN_USER:-admin}
-MONGODB_DBNAME=${MONGODB_DBNAME:-mydb}
-mongo <<EOF
+  # Enable admin account
+  MONGODB_PASSWORD_ADMIN_USER=$(cat /run/secrets/MONGODB_PASSWORD_ADMIN_USER)
+  MONGODB_ADMIN_USER=${MONGODB_ADMIN_USER:-admin}
+  MONGODB_DBNAME=${MONGODB_DBNAME:-mydb}
+  mongo <<EOF
 admin = db.getSiblingDB('admin')
 admin.createUser(
   {
@@ -42,5 +43,8 @@ mydb.createUser(
   }
 )
 EOF
+  mkdir -p /data/db/.metadata
+  touch /data/db/.metadata/.router
+fi
 
 fg
