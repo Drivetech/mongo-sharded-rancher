@@ -220,6 +220,7 @@ volumes:
   {{- if .Values.MONGOD_VOLUME_NAME}}
   {{.Values.MONGOD_VOLUME_NAME}}:
     external: true
+    per_container: true
     {{- if .Values.STORAGE_DRIVER}}
     driver: {{.Values.STORAGE_DRIVER}}
     {{- end}}
@@ -228,6 +229,7 @@ volumes:
   {{- if .Values.ARBITER_VOLUME_NAME}}
   {{.Values.ARBITER_VOLUME_NAME}}:
     external: true
+    per_container: true
     {{- if .Values.STORAGE_DRIVER}}
     driver: {{.Values.STORAGE_DRIVER}}
     {{- end}}
@@ -236,6 +238,7 @@ volumes:
   {{- if .Values.CONFIGSVR_VOLUME_NAME}}
   {{.Values.CONFIGSVR_VOLUME_NAME}}:
     external: true
+    per_container: true
     {{- if .Values.STORAGE_DRIVER}}
     driver: {{.Values.STORAGE_DRIVER}}
     {{- end}}
