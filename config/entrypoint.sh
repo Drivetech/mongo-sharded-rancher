@@ -1,13 +1,9 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 mkdir -p /run/secrets
 MONGODB_USER_ID=${MONGODB_USER_ID:-999}
 MONGODB_GROUP_ID=${MONGODB_GROUP_ID:-999}
 
-tr -cd '[:alnum:]' < /dev/urandom | fold -w775 | head -n1 > /run/secrets/MONGODB_KEYFILE
-tr -cd '[:alnum:]' < /dev/urandom | fold -w32 | head -n1 > /run/secrets/MONGODB_PASSWORD_ADMIN_USER
-chmod 400 /run/secrets/MONGODB_KEYFILE /run/secrets/MONGODB_PASSWORD_ADMIN_USER
-chown $MONGODB_USER_ID:$MONGODB_GROUP_ID /run/secrets/MONGODB_KEYFILE /run/secrets/MONGODB_PASSWORD_ADMIN_USER
 IFS="
 "
 for ENV_VAR in `env`; do

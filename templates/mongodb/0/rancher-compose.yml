@@ -4,106 +4,109 @@
   description: |
     MongoDB Sharded Cluster
   questions:
+    - variable: MONGO_VERSION
+      label: "MongoDB version"
+      type: enum
+      options:
+        - mongo:3.4.10
+        - mongo:3.2.17
+      default: mongo:3.4.10
+      required: true
     - variable: MONGODB_KEYFILE_SECRET
+      label: "MongoDB Keyfile"
       type: multiline
       required: true
-      label: "MongoDB Keyfile"
-    - variable: MONGODB_PASSWORD_ADMIN_USER_SECRET
-      type: string
-      required: true
-      label: "Password for admin user"
-    - variable: MONGODB_ADMIN_USER
-      type: string
-      required: false
-      default: "admin"
+      description: "Set a random strong passphrase. Generate with: openssl rand -base64 756"
+    - variable: MONGO_INITDB_ROOT_USERNAME
       label: "Username for admin user"
+      type: string
+      default: "admin"
+      required: false
+    - variable: MONGO_INITDB_ROOT_PASSWORD
+      label: "Password for admin user"
+      type: password
+      required: true
     - variable: MONGODB_DBNAME
+      label: "Database name"
       type: string
       required: false
-      default: "mydb"
-      label: "Database name"
-    - variable: MONGODB_PORT
-      type: string
+    - variable: MONGOS_PORT
+      label: "Mongos port"
+      type: int
       required: true
       default: "27017"
-      label: "MongoDB port"
-    - variable: MONGODB_PRIMARY_HOST_LABEL
+    - variable: MONGOD_PORT
+      label: "Mongod port"
+      type: int
+      required: false
+    - variable: "ARBITER_ENABLED"
+      label: "Enable Arbiter"
+      description: "Enable Arbiter for Mongod ReplicaSet."
+      type: boolean
+      required: true
+      default: true
+    - variable: "CONFIGSVR_ENABLED"
+      label: "Enable Configsvr"
+      description: "Enable Configsvr for Sharded."
+      type: boolean
+      required: true
+      default: true
+    - variable: "MONGOS_ENABLED"
+      label: "Enable Mongos"
+      description: "Enable Mongos for Sharded."
+      type: boolean
+      required: true
+      default: true
+    - variable: "MONGOD_SCALE"
+      label: "Mongod Scale"
+      description: "Number of Mongod nodes to launch. Only one node is scheduled to each host. Recommended 2."
+      type: int
+      required: true
+      default: 2
+    - variable: "CONFIGSVR_SCALE"
+      label: "Configsvr Scale"
+      description: "Number of Configsvr nodes to launch. Only one node is scheduled to each host. Recommended 3."
+      type: int
+      required: true
+      default: 3
+    - variable: MONGOD_RS_NAME
+      label: "Mongod ReplicaSet name"
       type: string
       required: true
-      default: "mongodb.replicaset.role=primary"
-      label: "Host label for primary"
-    - variable: MONGODB_SECUNDARY_HOST_LABEL
+      default: "rs1"
+    - variable: CONFIGSVR_RS_NAME
+      label: "Configsvr ReplicaSet name"
       type: string
       required: true
-      default: "mongodb.replicaset.role=secundary"
-      label: "Host label for secundary"
-    - variable: MONGODB_ARBITER_HOST_LABEL
+      default: "configsvr_rs1"
+    - variable: MONGOD_HOST_LABEL
+      label: "Host label for mongod nodes"
       type: string
-      required: true
-      default: "mongodb.replicaset.role=arbiter"
-      label: "Host label for arbiter"
-    - variable: MONGODB_ROUTER_HOST_LABEL
+      required: false
+    - variable: ARBITER_HOST_LABEL
+      label: "Host label for arbiter nodes"
       type: string
-      required: true
-      default: "mongodb.replicaset.role=router"
-      label: "Host label for router"
-    - variable: MONGODB_CONFIG1_HOST_LABEL
+      required: false
+    - variable: CONFIGSVR_HOST_LABEL
+      label: "Host label for configsvr nodes"
       type: string
-      required: true
-      default: "mongodb.replicaset.role=secundary"
-      label: "Host label for config server 1"
-    - variable: MONGODB_CONFIG2_HOST_LABEL
+      required: false
+    - variable: MONGOS_HOST_LABEL
+      label: "Host label for mongos nodes"
       type: string
-      required: true
-      default: "mongodb.replicaset.role=arbiter"
-      label: "Host label for config server 2"
-    - variable: MONGODB_CONFIG3_HOST_LABEL
-      type: string
-      required: true
-      default: "mongodb.replicaset.role=router"
-      label: "Host label for config server 3"
+      required: false
 
 version: '2'
 services:
-  config-router:
+  mongod:
+    scale: ${MONGOD_SCALE}
+    start_on_create: true
+    retain_ip: true
+  configsvr:
+    scale: ${CONFIGSVR_SCALE}
+    start_on_create: true
+    retain_ip: true
+  mongos:
     scale: 1
     start_on_create: true
-  secundary:
-    scale: 1
-    start_on_create: true
-  config-configsvr-3:
-    scale: 1
-    start_on_create: true
-  arbiter:
-    scale: 1
-    start_on_create: true
-  router:
-    scale: 1
-    start_on_create: true
-  configsvr-2:
-    scale: 1
-    start_on_create: true
-  config-primary:
-    scale: 1
-    start_on_create: true
-  configsvr-3:
-    scale: 1
-    start_on_create: true
-  configsvr-1:
-    scale: 1
-    start_on_create: true
-  config-secundary:
-    scale: 1
-    start_on_create: true
-  config-configsvr-1:
-    scale: 1
-    start_on_create: true
-  config-configsvr-2:
-    scale: 1
-    start_on_create: true
-  config-arbiter:
-    scale: 1
-    start_on_create: true
-  primary:
-    scale: 1
-    start_on_create: true
+    retain_ip: true

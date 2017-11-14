@@ -16,5 +16,5 @@ In Rancher's UI, go to **Admin/Settings** and add a new custom catalog:
 
 ## Docker Images
 
-* **mongodb-sharded-config**:
+* **mongo-config**:
 Docker image used as sidekick container of all mongodb containers to provide secrets and scripts.
