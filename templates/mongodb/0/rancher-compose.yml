@@ -18,7 +18,7 @@
       required: true
       description: "Set a random strong passphrase. Generate with: openssl rand -base64 756"
     - variable: MONGO_INITDB_ROOT_USERNAME
-      label: "Username for admin user"
+      label: "Username for admin user (Optional)"
       type: string
       default: "admin"
       required: false
@@ -27,7 +27,7 @@
       type: password
       required: true
     - variable: MONGODB_DBNAME
-      label: "Database name"
+      label: "Database name (Optional)"
       type: string
       required: false
     - variable: MONGOS_PORT
@@ -36,7 +36,7 @@
       required: true
       default: "27017"
     - variable: MONGOD_PORT
-      label: "Mongod port"
+      label: "Mongod port (Optional)"
       type: int
       required: false
     - variable: "ARBITER_ENABLED"
@@ -80,19 +80,19 @@
       required: true
       default: "configsvr_rs1"
     - variable: MONGOD_HOST_LABEL
-      label: "Host label for mongod nodes"
+      label: "Host label for mongod nodes (Optional)"
       type: string
       required: false
     - variable: ARBITER_HOST_LABEL
-      label: "Host label for arbiter nodes"
+      label: "Host label for arbiter nodes (Optional)"
       type: string
       required: false
     - variable: CONFIGSVR_HOST_LABEL
-      label: "Host label for configsvr nodes"
+      label: "Host label for configsvr nodes (Optional)"
       type: string
       required: false
     - variable: MONGOS_HOST_LABEL
-      label: "Host label for mongos nodes"
+      label: "Host label for mongos nodes (Optional)"
       type: string
       required: false
     - variable: MONGOD_VOLUME_NAME
