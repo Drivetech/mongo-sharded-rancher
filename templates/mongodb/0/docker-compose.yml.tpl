@@ -78,6 +78,8 @@ services:
       MONGO_INITDB_ROOT_USERNAME: '${MONGO_INITDB_ROOT_USERNAME}'
       MONGO_INITDB_ROOT_PASSWORD: '${MONGO_INITDB_ROOT_PASSWORD}'
     entrypoint: /opt/rancher/bin/entrypoint-arbiter.sh
+    depends_on:
+    - mongod
 
   arbiter-config:
     image: lgatica/mongo-config
@@ -190,6 +192,9 @@ services:
       io.rancher.container.hostname_override: container_name
       io.rancher.sidekicks: mongos-config
     entrypoint: /opt/rancher/bin/entrypoint-mongos.sh
+    depends_on:
+    - mongod
+    - configsvr
 
   mongos-config:
     image: lgatica/mongo-config
