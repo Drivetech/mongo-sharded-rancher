@@ -95,6 +95,37 @@
       label: "Host label for mongos nodes"
       type: string
       required: false
+    - variable: MONGOD_VOLUME_NAME
+      label: Volume Name of mongod nodes (Optional)
+      description: |
+        To store the mongod data.
+        By default this will be a (host scoped) named Docker volume. See "Persistent Storage Driver" for other options.
+      type: string
+      required: false
+    - variable: ARBITER_VOLUME_NAME
+      label: Volume Name of arbiter nodes (Optional)
+      description: |
+        To store the arbiter data.
+        By default this will be a (host scoped) named Docker volume. See "Persistent Storage Driver" for other options.
+      type: string
+      required: false
+    - variable: CONFIGSVR_VOLUME_NAME
+      label: Volume Name of configsvr nodes (Optional)
+      description: |
+        To store the configsvr data.
+        By default this will be a (host scoped) named Docker volume. See "Persistent Storage Driver" for other options.
+      type: string
+      required: false
+    - variable: STORAGE_DRIVER
+      label: Volume Storage Driver (Optional)
+      description: |
+        To use a stack scoped volume backed by a persistent storage service, select the name
+        of an existing storage driver (see `Infrastructure -> Storage`). This also requires "Volume Name" to be set.
+      type: enum
+      options:
+        - local
+        - rancher-nfs
+      required: false
 
 version: '2'
 services:
