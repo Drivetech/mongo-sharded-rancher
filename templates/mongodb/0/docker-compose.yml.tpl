@@ -44,7 +44,7 @@ services:
       io.rancher.container.start_once: 'true'
     entrypoint: /bin/true
 
-  {{- if .Values.MONGOD_VOLUME_NAME}}
+  {{- if .Values.MONGOD_VOLUME_PATH}}
   mongod-data:
     image: busybox
     labels:
@@ -54,7 +54,7 @@ services:
       io.rancher.container.hostname_override: container_name
       io.rancher.container.start_once: 'true'
     volumes:
-      - {{.Values.MONGOD_VOLUME_NAME}}:/data/db
+      - {{.Values.MONGOD_VOLUME_PATH}}:/data/db
     entrypoint: /bin/true
   {{- end}}
 
@@ -99,7 +99,7 @@ services:
       io.rancher.container.start_once: 'true'
     entrypoint: /bin/true
 
-  {{- if .Values.ARBITER_VOLUME_NAME}}
+  {{- if .Values.ARBITER_VOLUME_PATH}}
   arbiter-data:
     image: busybox
     labels:
@@ -109,7 +109,7 @@ services:
       io.rancher.container.hostname_override: container_name
       io.rancher.container.start_once: 'true'
     volumes:
-      - {{.Values.ARBITER_VOLUME_NAME}}:/data/db
+      - {{.Values.ARBITER_VOLUME_PATH}}:/data/db
     entrypoint: /bin/true
   {{- end}}
   {{- end}}
@@ -154,7 +154,7 @@ services:
       io.rancher.container.start_once: 'true'
     entrypoint: /bin/true
 
-  {{- if .Values.CONFIGSVR_VOLUME_NAME}}
+  {{- if .Values.CONFIGSVR_VOLUME_PATH}}
   configsvr-data:
     image: busybox
     labels:
@@ -164,7 +164,7 @@ services:
       io.rancher.container.hostname_override: container_name
       io.rancher.container.start_once: 'true'
     volumes:
-      - {{.Values.CONFIGSVR_VOLUME_NAME}}:/data/db
+      - {{.Values.CONFIGSVR_VOLUME_PATH}}:/data/db
     entrypoint: /bin/true
   {{- end}}
   {{- end}}
@@ -214,33 +214,3 @@ services:
       io.rancher.container.start_once: 'true'
     entrypoint: /bin/true
   {{- end}}
-
-{{- if or (.Values.MONGOD_VOLUME_NAME) (.Values.ARBITER_VOLUME_NAME) (.Values.CONFIGSVR_VOLUME_NAME)}}
-volumes:
-  {{- if .Values.MONGOD_VOLUME_NAME}}
-  {{.Values.MONGOD_VOLUME_NAME}}:
-    external: true
-    per_container: true
-    {{- if .Values.STORAGE_DRIVER}}
-    driver: {{.Values.STORAGE_DRIVER}}
-    {{- end}}
-  {{- end}}
-
-  {{- if .Values.ARBITER_VOLUME_NAME}}
-  {{.Values.ARBITER_VOLUME_NAME}}:
-    external: true
-    per_container: true
-    {{- if .Values.STORAGE_DRIVER}}
-    driver: {{.Values.STORAGE_DRIVER}}
-    {{- end}}
-  {{- end}}
-
-  {{- if .Values.CONFIGSVR_VOLUME_NAME}}
-  {{.Values.CONFIGSVR_VOLUME_NAME}}:
-    external: true
-    per_container: true
-    {{- if .Values.STORAGE_DRIVER}}
-    driver: {{.Values.STORAGE_DRIVER}}
-    {{- end}}
-  {{- end}}
-{{- end }}
