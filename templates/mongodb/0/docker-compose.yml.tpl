@@ -42,7 +42,6 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
       io.rancher.container.start_once: 'true'
-    entrypoint: /bin/true
 
   {{- if .Values.MONGOD_VOLUME_PATH}}
   mongod-data:
@@ -97,7 +96,6 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
       io.rancher.container.start_once: 'true'
-    entrypoint: /bin/true
 
   {{- if .Values.ARBITER_VOLUME_PATH}}
   arbiter-data:
@@ -152,7 +150,6 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
       io.rancher.container.start_once: 'true'
-    entrypoint: /bin/true
 
   {{- if .Values.CONFIGSVR_VOLUME_PATH}}
   configsvr-data:
@@ -212,5 +209,4 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
       io.rancher.container.start_once: 'true'
-    entrypoint: /bin/true
   {{- end}}
