@@ -5,12 +5,9 @@ LABEL maintainer "Leonardo Gatica <lgatica@protonmail.com>"
 ENV GIDDYUP_VERSION=0.19.0 CURL_VERSION=7.56.1
 
 RUN mkdir -p /opt/rancher/bin
-COPY entrypoint.sh /entrypoint.sh
-COPY scripts/* /opt/rancher/bin/
 RUN apk add --no-cache curl && \
   mkdir -p /usr/local/etc/redis && \
   curl -sL -o /opt/rancher/bin/giddyup https://github.com/rancher/giddyup/releases/download/v${GIDDYUP_VERSION}/giddyup && \
-  chmod +x /entrypoint.sh /opt/rancher/bin/* && \
   apk add --update --no-cache --virtual curldeps g++ make perl openssl openssl-dev ca-certificates && \
   wget https://curl.haxx.se/download/curl-$CURL_VERSION.tar.bz2 && \
   tar xjvf curl-$CURL_VERSION.tar.bz2 && \
@@ -31,6 +28,10 @@ RUN apk add --no-cache curl && \
   make LDFLAGS=-all-static && \
   make install && \
   cp /tmp/curl/bin/curl /opt/rancher/bin/curl && \
-  rm -rf /tmp/curl
+  rm -rf /tmp/curl && \
+  apk del curl curldeps
+COPY entrypoint.sh /entrypoint.sh
+COPY scripts/* /opt/rancher/bin/
+RUN  chmod +x /entrypoint.sh /opt/rancher/bin/*
 
 ENTRYPOINT ["/entrypoint.sh"]
