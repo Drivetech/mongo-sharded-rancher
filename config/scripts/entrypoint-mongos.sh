@@ -14,7 +14,7 @@ members=$(echo "$members" | sed 's/,//')
 
 if [ ! -f /data/db/.metadata/.router ]
   then
-  mongos --fork --logpath /var/log/mongod.log --port 27017 --keyFile /run/secrets/MONGODB_KEYFILE --configdb $RS_NAME/$members
+  mongos --fork --logpath /var/log/mongod.log --port 27017 --keyFile /run/secrets/MONGODB_KEYFILE --configdb $CONFIGSVR_RS_NAME/$members
   RET=1
   while [ $RET != 0 ]
   do
@@ -25,9 +25,9 @@ if [ ! -f /data/db/.metadata/.router ]
   done
 
   # Get ip of master replicaset
-  master_ip=$(/opt/rancher/bin/curl http://rancher-metadata/latest/stacks/$stack_name/services/mongos/containers/0/primary_ip)
+  master_ip=$(/opt/rancher/bin/curl http://rancher-metadata/latest/stacks/$stack_name/services/mongod/containers/0/primary_ip)
   # Apply sharding configuration
-  mongo --eval "printjson(sh.addShard('$RS_NAME/$master_ip:27017'))"
+  mongo --eval "printjson(sh.addShard('$MONGOD_RS_NAME/$master_ip:27017'))"
 
   # Enable admin account
   MONGODB_DBNAME=${MONGODB_DBNAME:-mydb}
@@ -49,7 +49,7 @@ mydb.createUser(
 EOF
   mkdir -p /data/db/.metadata
   touch /data/db/.metadata/.router
-  mongo -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD admin --eval "printjson(db.shutdownServer())" && mongos --port 27017 --keyFile /run/secrets/MONGODB_KEYFILE --configdb $RS_NAME/$members
+  mongo -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD admin --eval "printjson(db.shutdownServer())" && mongos --port 27017 --keyFile /run/secrets/MONGODB_KEYFILE --configdb $CONFIGSVR_RS_NAME/$members
 else
-  mongos --port 27017 --keyFile /run/secrets/MONGODB_KEYFILE --configdb $RS_NAME/$members
+  mongos --port 27017 --keyFile /run/secrets/MONGODB_KEYFILE --configdb $CONFIGSVR_RS_NAME/$members
 fi
