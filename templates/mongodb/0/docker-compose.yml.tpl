@@ -34,7 +34,7 @@ services:
     - /run/secrets
     - /opt/rancher/bin
     environment:
-      MONGODB_KEYFILE_SECRET: '${MONGODB_KEYFILE_SECRET}'
+      MONGODB_KEYFILE_SECRET: '${MONGODB_KEYFILE}'
     labels:
       {{- if ne .Values.MONGOD_HOST_LABEL ""}}
       io.rancher.scheduler.affinity:host_label: ${MONGOD_HOST_LABEL}
@@ -89,7 +89,7 @@ services:
     - /run/secrets
     - /opt/rancher/bin
     environment:
-      MONGODB_KEYFILE_SECRET: '${MONGODB_KEYFILE_SECRET}'
+      MONGODB_KEYFILE_SECRET: '${MONGODB_KEYFILE}'
     labels:
       {{- if ne .Values.ARBITER_HOST_LABEL ""}}
       io.rancher.scheduler.affinity:host_label: ${ARBITER_HOST_LABEL}
@@ -144,7 +144,7 @@ services:
     - /run/secrets
     - /opt/rancher/bin
     environment:
-      MONGODB_KEYFILE_SECRET: '${MONGODB_KEYFILE_SECRET}'
+      MONGODB_KEYFILE_SECRET: '${MONGODB_KEYFILE}'
     labels:
       {{- if ne .Values.CONFIGSVR_HOST_LABEL ""}}
       io.rancher.scheduler.affinity:host_label: ${CONFIGSVR_HOST_LABEL}
@@ -204,7 +204,7 @@ services:
     - /run/secrets
     - /opt/rancher/bin
     environment:
-      MONGODB_KEYFILE_SECRET: '${MONGODB_KEYFILE_SECRET}'
+      MONGODB_KEYFILE_SECRET: '${MONGODB_KEYFILE}'
     labels:
       {{- if ne .Values.MONGOS_HOST_LABEL ""}}
       io.rancher.scheduler.affinity:host_label: ${MONGOS_HOST_LABEL}
