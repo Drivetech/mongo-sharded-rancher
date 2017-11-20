@@ -15,3 +15,5 @@ for ENV_VAR in `env`; do
   chmod 400 /run/secrets/$SECRET_FILE
   chown $MONGODB_USER_ID:$MONGODB_GROUP_ID /run/secrets/$SECRET_FILE
 done
+
+exec "$@"
