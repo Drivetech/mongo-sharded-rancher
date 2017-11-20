@@ -1,15 +1,13 @@
 #!/usr/bin/env sh
 
-apt-get update && apt-get install -y --no-install-recommends wget && rm -rf /var/lib/apt/lists/*
-
 # Add configsvr address to confiration file
-stack_name=`echo -n $(wget -q -O - http://rancher-metadata/latest/self/stack/name)`
-configsvr_members=$(wget -q -O - http://rancher-metadata/latest/stacks/$stack_name/services/configsvr/containers)
+stack_name=`echo -n $(/opt/rancher/bin/curl http://rancher-metadata/latest/self/stack/name)`
+configsvr_members=$(/opt/rancher/bin/curl http://rancher-metadata/latest/stacks/$stack_name/services/configsvr/containers)
 members=""
 for member in $configsvr_members
 do
   member_index=$(echo $member | tr '=' '\n' | head -n1)
-  member_ip=$(wget -q -O - http://rancher-metadata/latest/stacks/$stack_name/services/configsvr/containers/$member_index/primary_ip)
+  member_ip=$(/opt/rancher/bin/curl http://rancher-metadata/latest/stacks/$stack_name/services/configsvr/containers/$member_index/primary_ip)
   members="$members,$member_ip:27017"
 done
 members=$(echo "$members" | sed 's/,//')
@@ -27,7 +25,7 @@ if [ ! -f /data/db/.metadata/.router ]
   done
 
   # Get ip of master replicaset
-  master_ip=$(wget -q -O - http://rancher-metadata/latest/stacks/$stack_name/services/mongos/containers/0/primary_ip)
+  master_ip=$(/opt/rancher/bin/curl http://rancher-metadata/latest/stacks/$stack_name/services/mongos/containers/0/primary_ip)
   # Apply sharding configuration
   mongo --eval "printjson(sh.addShard('$RS_NAME/$master_ip:27017'))"
 
